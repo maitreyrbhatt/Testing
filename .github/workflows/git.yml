@@ -1,0 +1,27 @@
+name: GitGuardian Secret Scan
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gitguardian_scan:
+    name: GitGuardian Secret Detection
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Required for full git history scanning
+
+      - name: Run GitGuardian scan
+        uses: GitGuardian/ggshield-action@v1
+        env:
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+        with:
+          args: >
+            secret scan repo .
+            --show-secrets
