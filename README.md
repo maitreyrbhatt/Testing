@@ -1,3 +1,4 @@
+New
 # Damn Vulnerable Java Application
 
 ## Quick Start
